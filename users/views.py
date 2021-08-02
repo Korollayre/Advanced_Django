@@ -1,8 +1,11 @@
-from django.urls import reverse_lazy
+from django.core.mail import send_mail
+from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic.edit import CreateView, UpdateView
+from django.conf import settings
+
 from users.models import User
 
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
@@ -50,3 +53,14 @@ class UserProfileView(UpdateView):
 
 class UserLogoutView(LogoutView):
     next_page = reverse_lazy('index')
+
+
+def verify(request, email, activation_key):
+    pass
+
+
+def send_verify_mail(user):
+    subject = 'Verify your account'
+    link = reverse('users:verify', args=[user.email, user.activation_key])
+    message = f'{settings.DOMAIN}{link}'
+    return send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
