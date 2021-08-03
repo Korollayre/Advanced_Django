@@ -1,0 +1,12 @@
+{% extends 'users/base.html' %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h3>Поздравляем</h3>
+        <div>Пользователь {{ user.username }} успешно активирован!</div>
+    {% else %}
+        <h3>Что-то пошло не так =(</h3>
+        <div>Пользователь {{ user.username }} не активирован!</div>
+    {% endif %}
+    <a href="{% url 'index' %}">На главную</a>
+{% endblock %}

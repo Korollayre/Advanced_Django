@@ -1,0 +1,11 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Verify your account
+From: django@gb.local
+To: dima@mail.ru
+Date: Tue, 03 Aug 2021 10:26:30 -0000
+Message-ID: <162798639034.6648.11808138975000830548@DESKTOP-DH2J8V7>
+
+http://127.0.0.1:8000/users/verify/dima@mail.ru/cab578d0e78be926988af1df37e69bd625f4e259
+-------------------------------------------------------------------------------

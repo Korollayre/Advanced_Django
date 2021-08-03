@@ -1,4 +1,7 @@
+from django.contrib import auth
 from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -7,9 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.conf import settings
 
 from users.models import User
-
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
-from baskets.models import Basket
 
 
 class UserLoginView(LoginView):
@@ -26,12 +27,22 @@ class UserLoginView(LoginView):
 class UserRegistrationView(CreateView):
     form_class = UserRegistrationForm
     template_name = 'users/registration.html'
-    success_url = reverse_lazy('users:login')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(UserRegistrationView, self).get_context_data(object_list=None, **kwargs)
         context['title'] = 'GeekShop - Регистрация'
         return context
+
+    def get_success_url(self):
+        if self.request.method == 'POST':
+            if self.get_form().is_valid:
+                user = self.get_form().save()
+                if send_verify_mail(user):
+                    print('Сообщение подтверждения отправлено')
+                    return reverse_lazy('users:login')
+                else:
+                    print('Ошибка отправки сообщения')
+                    return reverse_lazy('users:login')
 
 
 class UserProfileView(UpdateView):
@@ -43,7 +54,7 @@ class UserProfileView(UpdateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(UserProfileView, self).get_context_data(object_list=None, **kwargs)
         context['title'] = 'GeekShop - Личный кабинет'
-        context['baskets'] = Basket.objects.filter(user=self.request.user)
+
         return context
 
     @method_decorator(login_required)
@@ -56,7 +67,14 @@ class UserLogoutView(LogoutView):
 
 
 def verify(request, email, activation_key):
-    pass
+    current_user = User.objects.filter(email=email).first()
+    if current_user:
+        if current_user.activation_key == activation_key and not current_user.is_activation_key_expired():
+            current_user.is_active = True
+            current_user.save()
+            auth.login(request, current_user)
+            return render(request, 'users/verify.html')
+    return HttpResponseRedirect(reverse('index'))
 
 
 def send_verify_mail(user):
