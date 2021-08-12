@@ -28,7 +28,7 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
-        ordering = ('-created', )
+        ordering = ('-created',)
 
     def __str__(self):
         return f'Заказ номер {self.pk}'
@@ -42,6 +42,10 @@ class Order(models.Model):
         return sum(list(map(lambda x: x.get_product_cost, items)))
 
     def delete(self):
+        for item in self.orderitems.select_related():
+            item.product.quantity += item.quantity
+            item.product.save()
+
         self.is_active = False
         self.save()
 

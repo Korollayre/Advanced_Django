@@ -5,22 +5,22 @@
     <div class="h4">Обновлен: {{ object.updated|date:"Y-m-d H:i:s" }}</div>
     <div class="h4">Статус: {{ object.get_status_display }}</div>
     <hr>
-    <div class="nav-link">
-        Общее количество товаров: {{ object.total_quantity }}
+    <div class="nav-link">Общее количество товаров:
+        <span class="order_total_quantity">{{ object.total_quantity }}</span>
     </div>
     <div class="nav-link">
-        Общая стоимость: {{ object.total_sum }} &#8381
+        Общая стоимость: <span class="order_total_sum">{{ object.total_sum }}</span> &#8381
     </div>
 {% else %}
     <div class="h2">Новый заказ</div>
     <hr>
     <div class="h4">Заказчик: {{ user.last_name }} {{ user.first_name }} </div>
-    {% if basket.0 %}
-        <div class="nav-link">
-            Общее количество товаров: {{ basket.0.total_quantity }}
+    {% if baskets.0 %}
+        <div class="nav-link">Общее количество товаров:
+            <span class="order_total_quantity">{{ baskets.0.total_quantity }}</span>
         </div>
         <div class="nav-link">
-            Общая стоимость: {{ basket.0.total_sum }} &#8381
+            Общая стоимость: <span class="order_total_sum">{{ baskets.0.total_sum }}</span> &#8381
         </div>
     {% endif %}
 {% endif %}
