@@ -3,7 +3,7 @@ import random
 
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
-from users.models import User
+from users.models import User, SocialUser
 
 
 class UserLoginForm(AuthenticationForm):
@@ -27,6 +27,8 @@ class UserRegistrationForm(UserCreationForm):
         'class': 'form-control py-4', 'placeholder': 'Введите имя'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control py-4', 'placeholder': 'Введите фамилию'}))
+    age = forms.IntegerField(widget=forms.NumberInput(attrs={
+        'class': 'form-control py-4', 'placeholder': 'Введите возраст'}), min_value=18)
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={
         'class': 'form-control py-4', 'placeholder': 'Введите пароль'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -54,6 +56,8 @@ class UserProfileForm(UserChangeForm):
         'class': 'form-control py-4'}))
     image = forms.ImageField(widget=forms.FileInput(attrs={
         'class': 'custom-file-input'}), required=False)
+    age = forms.IntegerField(widget=forms.NumberInput(attrs={
+        'class': 'form-control py-4'}), min_value=18)
     username = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control py-4', 'readonly': True}))
     email = forms.CharField(widget=forms.EmailInput(attrs={
@@ -61,4 +65,18 @@ class UserProfileForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'image', 'username', 'email')
+        fields = ('first_name', 'last_name', 'image', 'age', 'username', 'email')
+
+
+class SocialUserProfileForm(forms.ModelForm):
+    class Meta:
+        model = SocialUser
+        fields = ('tagline', 'about_me', 'gender')
+
+    def __init__(self, *args, **kwargs):
+        super(SocialUserProfileForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if not field_name == 'gender':
+                field.widget.attrs['class'] = 'form-control py-4'
+            else:
+                field.widget.attrs['class'] = 'form-control'

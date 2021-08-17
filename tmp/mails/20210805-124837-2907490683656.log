@@ -1,0 +1,11 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Verify your account
+From: django@gb.local
+To: kolya@mail.ru
+Date: Thu, 05 Aug 2021 09:48:37 -0000
+Message-ID: <162815691727.3344.6724917349228025932@DESKTOP-DH2J8V7>
+
+http://127.0.0.1:8000/users/verify/kolya@mail.ru/5f77224f71e6b2754e40a83085a8ba04d489ccb0
+-------------------------------------------------------------------------------
