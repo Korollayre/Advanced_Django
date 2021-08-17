@@ -2646,10 +2646,34 @@ fieldset:disabled a.btn {
     box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
 }
 
+.category_delete {
+    margin: 50px auto;
+    width: 600px;
+    font-size: 150%;
+}
+
+.category_delete .btn {
+    display: block;
+    float: left;
+    margin: 25px;
+    width: 150px;
+    color: #111;
+}
+
+.category_delete a {
+    color: #111;
+    text-decoration: none;
+}
+
 .btn-info {
     color: #fff;
     background-color: #17a2b8;
     border-color: #17a2b8;
+}
+
+.category_delete {
+    display: flex;
+    flex-direction: column;
 }
 
 .btn-info:hover {
@@ -4778,6 +4802,23 @@ input[type=button].btn-block {
 .card-header-pills {
     margin-right: -0.625rem;
     margin-left: -0.625rem;
+}
+.basket_record{
+    width: 100%;
+    min-width: 500px;
+    max-width: 500px;
+}
+
+.order_img_box > img {
+    margin: 10px;
+    box-sizing: border-box;
+    max-height: 300px;
+    object-fit: contain;
+}
+.basket_list{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .card-img-overlay {

@@ -50,6 +50,9 @@
                         </li>
                     {% endif %}
                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'order:orders' %}">Заказы</a>
+                    </li>
+                    <li class="nav-item">
                         <span class="nav-link">
                             {% if baskets %}
                                 {{ baskets.0.total_sum }} &#8381 ({{ baskets.0.total_quantity }} шт)
