@@ -18,6 +18,8 @@ class OrderForms(forms.ModelForm):
 
 
 class OrderItemForm(forms.ModelForm):
+    price = forms.DecimalField(max_digits=8, decimal_places=2, label='Цена')
+
     class Meta:
         model = OrderItem
         exclude = ()
