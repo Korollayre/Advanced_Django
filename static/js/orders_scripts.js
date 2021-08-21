@@ -20,6 +20,11 @@ window.onload = function () {
             price_arr[i] = 0;
         }
 
+        if (!order_total_quantity) {
+            orderSummeryRecals()
+        }
+
+
     }
     $('.card').on('click', 'input[type=number]', function () {
         const target = event.target;
@@ -53,6 +58,35 @@ window.onload = function () {
         $('.order_total_quantity').html(order_total_quantity);
         $('.order_total_sum').html(order_total_sum);
     }
+
+    $('.card').on('change', 'select', function () {
+        var target = event.target;
+        orderitem_num = parseInt(target.name.replace('orderitems-', '').replace('-product', ''));
+        var orderitem_product_pk = target.options[target.selectedIndex].value;
+
+        $.ajax({
+            url: '/orders/product/' + orderitem_product_pk + '/price/',
+            success: function (data) {
+                if (data.price) {
+                    price_arr[orderitem_num] = parseFloat(data.price);
+                    var price_html = '<span>' + data.price.toString().replace('.', ',') + '</span>' + '&#8381';
+                    var curr_tr = $('tbody').find('tr:eq(' + orderitem_num + ')');
+                    curr_tr.find('td:eq(2)').html(price_html);
+                    orderSummeryRecals()
+                }
+            },
+        });
+    });
+
+    function orderSummeryRecals() {
+        for (var i = 0; i < TOTAL_FORMS; i++) {
+            order_total_quantity += quantity_arr[i];
+            order_total_sum += quantity_arr[i] * price_arr[i];
+        }
+        $('.order_total_quantity').html(order_total_quantity.toString());
+        $('.order_total_sum').html(Number(order_total_sum.toFixed(2)).toString());
+    }
+
 
     $('.formset_row').formset({
         addText: 'Добавить товар',
