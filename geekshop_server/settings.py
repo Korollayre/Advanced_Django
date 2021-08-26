@@ -118,6 +118,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'geekshop_db',
         'USER': 'postgres',
+        'PASSWORD': 231096,
+        'HOST': '127.0.0.1',
+        'PORT': '5432'
     }
 }
 
@@ -157,11 +160,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATICFILES_DIRS = (
-#     BASE_DIR / 'static',
-# )
+STATIC_ROOT = 'staticfiles'
 
-STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
