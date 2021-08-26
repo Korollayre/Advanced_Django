@@ -18,7 +18,7 @@ class OrderForms(forms.ModelForm):
 
 
 class OrderItemForm(forms.ModelForm):
-    price = forms.DecimalField(max_digits=8, decimal_places=2, label='Цена')
+    price = forms.DecimalField(max_digits=8, decimal_places=2, label='Цена', required=False)
 
     class Meta:
         model = OrderItem
